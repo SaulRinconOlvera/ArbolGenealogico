@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Arbol"
+    }
+  },
+  "defaultProject": "Arbol",
+  "cli": {
+    "analytics": "c843bbb3-5885-4fc2-9d84-15f13c4e1565"
+  }
 }
