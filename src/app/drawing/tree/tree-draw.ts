@@ -24,59 +24,17 @@ export class TreeDraw {
     private drawTest = () => {
         this.boxes = [];
 
-        this.people.push(new Person('Saúl', 'Rincón Olvera', './assets/dist/img/Saul.jpg', SexEnum.Male));
-        this.people.push(new Person('Janeth', 'Santillan Rosales', './assets/dist/img/Janeth.jpg', SexEnum.Female));
-        this.people.push(new Person('Roosevelt Fernando', 'Rincón Santillan', './assets/dist/img/Roosevelt.jpg', SexEnum.Male));
-        this.people.push(new Person('Samuel', 'Rincón Santillan', './assets/dist/img/Samuel.jpg', SexEnum.Male));
-        this.people.push(new Person('Paulina Janeth', 'Rincón Santillan', './assets/dist/img/Paulina.png', SexEnum.Female));
+        this.people.push(new Person('Saúl', 'Rincón Olvera', './assets/dist/img/Saul.jpg', SexEnum.Male, new Date(129189600000)));
+        this.people.push(new Person('Janeth', 'Santillan Rosales', './assets/dist/img/Janeth.jpg', SexEnum.Female, new Date(318232800000)));
+        this.people.push(new Person('Roosevelt Fernando', 'Rincón Santillan', './assets/dist/img/Roosevelt.jpg', SexEnum.Male, new Date(1051333200000)));
+        this.people.push(new Person('Samuel', 'Rincón Santillan', './assets/dist/img/Samuel.jpg', SexEnum.Male, new Date(1111730400000)));
+        this.people.push(new Person('Paulina Janeth', 'Rincón Santillan', './assets/dist/img/Paulina.png', SexEnum.Female, new Date(1197352800000)));
 
         this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 10), new Point(350, 110), this.configurationBehavior, this.people[0]));
         this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 150), new Point(350, 250), this.configurationBehavior, this.people[1]));
         this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 290), new Point(350, 390), this.configurationBehavior, this.people[2]));
         this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 430), new Point(350, 530), this.configurationBehavior, this.people[3]));
         this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 570), new Point(350, 670), this.configurationBehavior, this.people[4]));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 710), new Point(350, 810), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 850), new Point(350, 950), this.configurationBehavior));
-
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 10), new Point(350, 110), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 150), new Point(350, 250), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 290), new Point(350, 390), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 430), new Point(350, 530), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 570), new Point(350, 670), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 710), new Point(350, 810), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 850), new Point(350, 950), this.configurationBehavior));
-
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 10), new Point(500, 110), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 150), new Point(500, 250), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 290), new Point(500, 390), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 430), new Point(500, 530), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 570), new Point(500, 670), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 710), new Point(500, 810), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 850), new Point(500, 950), this.configurationBehavior));
-
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 10), new Point(650, 110), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 150), new Point(650, 250), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 290), new Point(650, 390), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 430), new Point(650, 530), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 570), new Point(650, 670), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 710), new Point(650, 810), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 850), new Point(650, 950), this.configurationBehavior));
-
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 10), new Point(800, 110), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 150), new Point(800, 250), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 290), new Point(800, 390), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 430), new Point(800, 530), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 570), new Point(800, 670), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 710), new Point(800, 810), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 850), new Point(800, 950), this.configurationBehavior));
-
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 10), new Point(950, 110), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 150), new Point(950, 250), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 290), new Point(950, 390), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 430), new Point(950, 530), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 570), new Point(950, 670), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 710), new Point(950, 810), this.configurationBehavior));
-        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 850), new Point(950, 950), this.configurationBehavior));
     }
 
     private configureCanvas = (canvas: HTMLCanvasElement) => {
@@ -128,8 +86,6 @@ export class TreeDraw {
             if(zoomBehavior > 0 && this.currentZoom >= environment.graphicConfigurationBehavior.zoomBehavior.maxZoom) return;
 
             this.currentZoom += zoomBehavior;
-            console.log(this.currentZoom);
-
             const currentTransform = this.context.getTransform();
 
             this.context.setTransform(this.originalTransform);

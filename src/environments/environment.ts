@@ -36,7 +36,7 @@ export const environment = {
     },
     zoomBehavior: {
       minZoom: 0.2,
-      maxZoom: 1.5
+      maxZoom: 1.6
     }
   }
 };

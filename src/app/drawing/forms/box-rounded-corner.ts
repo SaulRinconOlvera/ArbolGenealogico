@@ -4,7 +4,7 @@ import { ConfigurationBehavior } from '../classes/configuration-behavior';
 import { Person } from 'src/app/data/clases/person';
 import { SexEnum } from '../enumerators/sex-enum';
 import { environment } from 'src/environments/environment';
-import { Pipe } from '@angular/core';
+import * as moment from 'moment';
 
 export class BoxRoundedCorner {
     private context: CanvasRenderingContext2D;
@@ -29,7 +29,8 @@ export class BoxRoundedCorner {
         this.end = end;
         this.person = person;
 
-        // this.isMouseOver = false;
+        //  to change
+        moment.locale('es');
 
         this.configuration = behaviorConfiguration.getDefaultConfiguration();
         this.highlightConfiguration = behaviorConfiguration.getHiglightConfiguration();
@@ -73,16 +74,24 @@ export class BoxRoundedCorner {
 
     private drawText = () => {
         this.context.lineWidth = 1 ;
+
+        this.context.font = '16px Helvetica';
         this.context.fillStyle = this.selectedConfiguration.strokeStyle;
         this.context.strokeStyle = this.selectedConfiguration.strokeStyle;
-        this.context.font = '16px Helvetica';
-        this.context.strokeText(this.person.getName(), this.start.x + 80, this.start.y + 23 );
-        this.context.fillText(this.person.getName(), this.start.x + 80, this.start.y + 23 );
+        this.context.strokeText(this.person.getName(), this.start.x + 80, this.start.y + 25 );
+        this.context.fillText(this.person.getName(), this.start.x + 80, this.start.y + 25 );
+
         this.context.font = '12px Helvetica';
         this.context.fillStyle = this.selectedConfiguration.fillStyle;
         this.context.strokeStyle = this.selectedConfiguration.fillStyle;
         this.context.strokeText(this.person.getSecondName(), this.start.x + 80, this.start.y + 38 );
         this.context.fillText(this.person.getSecondName(), this.start.x + 80, this.start.y + 38 );
+
+        this.context.font = '10px Helvetica';
+        this.context.fillStyle = this.selectedConfiguration.strokeStyle;
+        this.context.strokeStyle = this.selectedConfiguration.strokeStyle;
+        this.context.strokeText(moment(this.person.getBirthDate()).format('LL'), this.start.x + 80, this.start.y + 55 );
+        this.context.fillText(moment(this.person.getBirthDate()).format('LL'), this.start.x + 80, this.start.y + 55 );
     }
 
     private getPhoto = () => {
@@ -90,13 +99,14 @@ export class BoxRoundedCorner {
         if(!this.image) {
             const image = new Image();
             image.src = this.person.getPhotoUrl();
-
+ 
             image.onload = () => {
                 const options: ImageBitmapOptions = { resizeHeight: 80, resizeWidth: 60  } as ImageBitmapOptions;
 
-                createImageBitmap(image, options).then(
+                self.createImageBitmap(image, options).then(
                     (r) => {
                         this.image = r;
+                        console.log(this.image);
                         this.context.drawImage(this.image, this.start.x + 10, this.start.y + 10);
                     }
                 );
@@ -145,6 +155,10 @@ export class BoxRoundedCorner {
         o.lineTo(point1.x, point1.y + radio);
         cornerPoint = this.drawRoundedCorner('upperLeft');
         o.arc(point1.x + radio, point1.y + radio, radio, cornerPoint.x, cornerPoint.y);
+
+        o.moveTo(this.start.x + 80, this.start.y + 42);
+        o.lineTo(this.end.x - 10, this.start.y + 42);
+
         o.closePath();
 
         return o;
