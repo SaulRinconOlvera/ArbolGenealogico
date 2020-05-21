@@ -2,6 +2,9 @@ import { Point } from '../classes/point';
 import { DrawConfiguration } from '../classes/draw-configuration';
 import { ConfigurationBehavior } from '../classes/configuration-behavior';
 import { Person } from 'src/app/data/clases/person';
+import { SexEnum } from '../enumerators/sex-enum';
+import { environment } from 'src/environments/environment';
+import { Pipe } from '@angular/core';
 
 export class BoxRoundedCorner {
     private context: CanvasRenderingContext2D;
@@ -61,10 +64,25 @@ export class BoxRoundedCorner {
     private drawBox = () => {
         this.clearWorkingArea();
         this.setConfiguration();
-        this.drawRoundedCornerBox();
+        this.objectPath = this.drawRoundedCornerBox();
         if(this.person) this.getPhoto();
         this.endDraw();
+        this.drawText();
         this.context.restore();
+    }
+
+    private drawText = () => {
+        this.context.lineWidth = 1 ;
+        this.context.fillStyle = this.selectedConfiguration.strokeStyle;
+        this.context.strokeStyle = this.selectedConfiguration.strokeStyle;
+        this.context.font = '16px Helvetica';
+        this.context.strokeText(this.person.getName(), this.start.x + 80, this.start.y + 23 );
+        this.context.fillText(this.person.getName(), this.start.x + 80, this.start.y + 23 );
+        this.context.font = '12px Helvetica';
+        this.context.fillStyle = this.selectedConfiguration.fillStyle;
+        this.context.strokeStyle = this.selectedConfiguration.fillStyle;
+        this.context.strokeText(this.person.getSecondName(), this.start.x + 80, this.start.y + 38 );
+        this.context.fillText(this.person.getSecondName(), this.start.x + 80, this.start.y + 38 );
     }
 
     private getPhoto = () => {
@@ -74,7 +92,7 @@ export class BoxRoundedCorner {
             image.src = this.person.getPhotoUrl();
 
             image.onload = () => {
-                const options: ImageBitmapOptions = { resizeHeight: 80, resizeWidth: 80  } as ImageBitmapOptions;
+                const options: ImageBitmapOptions = { resizeHeight: 80, resizeWidth: 60  } as ImageBitmapOptions;
 
                 createImageBitmap(image, options).then(
                     (r) => {
@@ -96,37 +114,53 @@ export class BoxRoundedCorner {
              this.currentConfiguration.shadowWidth + 2);
     }
 
-    private setConfiguration() {
+    private setConfiguration = () => {
         this.context.lineWidth = this.currentConfiguration.lineWidth ;
         this.context.strokeStyle = this.currentConfiguration.strokeStyle;
-        this.context.fillStyle = this.currentConfiguration.fillStyle;
+
+        if(this.person)
+            this.context.fillStyle =
+                    this.person.getSex() === SexEnum.Male ?
+                    environment.graphicConfigurationBehavior.sexFillConfiguration.Male :
+                    environment.graphicConfigurationBehavior.sexFillConfiguration.Female;
+        else
+            this.context.fillStyle = environment.graphicConfigurationBehavior.defaultConfiguration.fillStyle;
     }
 
-    private drawRoundedCornerBox = () => {
+    private drawRoundedCornerBox = (point1: Point = this.start, point2: Point = this.end, radio: number = this.radio): Path2D => {
         let cornerPoint: Point;
 
         const o = new Path2D();
 
-        o.moveTo(this.start.x + this.radio, this.start.y);
-        o.lineTo(this.end.x - this.radio, this.start.y);
+        o.moveTo(point1.x + radio, point1.y);
+        o.lineTo(point2.x - radio, point1.y);
         cornerPoint = this.drawRoundedCorner('upperRight');
-        o.arc(this.end.x - this.radio, this.start.y + this.radio, this.radio, cornerPoint.x , cornerPoint.y);
-        o.lineTo(this.end.x,this.end.y - this.radio);
+        o.arc(point2.x - radio, point1.y + radio, radio, cornerPoint.x , cornerPoint.y);
+        o.lineTo(point2.x, point2.y - radio);
         cornerPoint = this.drawRoundedCorner('lowerRight');
-        o.arc(this.end.x - this.radio, this.end.y - this.radio, this.radio, cornerPoint.x, cornerPoint.y);
-        o.lineTo(this.start.x + this.radio, this.end.y);
+        o.arc(point2.x - radio, point2.y - radio, radio, cornerPoint.x, cornerPoint.y);
+        o.lineTo(point1.x + radio, point2.y);
         cornerPoint = this.drawRoundedCorner('lowerLeft');
-        o.arc(this.start.x + this.radio, this.end.y - this.radio, this.radio, cornerPoint.x, cornerPoint.y);
-        o.lineTo(this.start.x, this.start.y + this.radio);
+        o.arc(point1.x + radio, point2.y - radio, radio, cornerPoint.x, cornerPoint.y);
+        o.lineTo(point1.x, point1.y + radio);
         cornerPoint = this.drawRoundedCorner('upperLeft');
-        o.arc(this.start.x + this.radio, this.start.y + this.radio, this.radio, cornerPoint.x, cornerPoint.y);
+        o.arc(point1.x + radio, point1.y + radio, radio, cornerPoint.x, cornerPoint.y);
         o.closePath();
-        this.objectPath = o;
+
+        return o;
     }
 
     private endDraw = () =>  {
         this.context.fill(this.objectPath);
-        if(this.image) this.context.drawImage(this.image, this.start.x + 10, this.start.y + 10);
+
+        if(this.image) {
+            // const x = this.drawRoundedCornerBox(
+            //     new Point(this.start.x + 10, this.start.y + 10),
+            //     new Point(this.start.x + 70, this.start.y + 90), 5);
+            // //this.context.clip(x);
+            this.context.drawImage(this.image, this.start.x + 10, this.start.y + 10);
+        }
+
         this.context.stroke(this.objectPath);
     }
 

@@ -4,6 +4,7 @@ import { Point } from '../classes/point';
 import { ConfigurationBehavior } from '../classes/configuration-behavior';
 import { environment } from 'src/environments/environment';
 import { Person } from 'src/app/data/clases/person';
+import { SexEnum } from '../enumerators/sex-enum';
 
 export class TreeDraw {
     private canvas: HTMLCanvasElement;
@@ -13,6 +14,7 @@ export class TreeDraw {
 
     private boxes: BoxRoundedCorner[] = [];
     private people: Person[] = [];
+    private currentZoom: number = 1;
 
     constructor(canvas: HTMLCanvasElement) {
         this.configureCanvas(canvas);
@@ -22,19 +24,19 @@ export class TreeDraw {
     private drawTest = () => {
         this.boxes = [];
 
-        this.people.push(new Person('Saúl Rincón Olvera', './assets/dist/img/Saul.jpg'));
-        this.people.push(new Person('Janeth Santillan Rosales', './assets/dist/img/Janeth.jpg'));
-        this.people.push(new Person('Roosevelt Fernando Rincón Santillan', './assets/dist/img/Roosevelt.jpg'));
-        this.people.push(new Person('Samuel Rincón Santillan', './assets/dist/img/Samuel.jpg'));
-        this.people.push(new Person('Paulina Janeth Rincón Santillan', './assets/dist/img/Paulina.png'));
+        this.people.push(new Person('Saúl', 'Rincón Olvera', './assets/dist/img/Saul.jpg', SexEnum.Male));
+        this.people.push(new Person('Janeth', 'Santillan Rosales', './assets/dist/img/Janeth.jpg', SexEnum.Female));
+        this.people.push(new Person('Roosevelt Fernando', 'Rincón Santillan', './assets/dist/img/Roosevelt.jpg', SexEnum.Male));
+        this.people.push(new Person('Samuel', 'Rincón Santillan', './assets/dist/img/Samuel.jpg', SexEnum.Male));
+        this.people.push(new Person('Paulina Janeth', 'Rincón Santillan', './assets/dist/img/Paulina.png', SexEnum.Female));
 
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 10), new Point(200, 110), this.configurationBehavior, this.people[0]));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 150), new Point(200, 250), this.configurationBehavior, this.people[1]));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 290), new Point(200, 390), this.configurationBehavior, this.people[2]));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 430), new Point(200, 530), this.configurationBehavior, this.people[3]));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 570), new Point(200, 670), this.configurationBehavior, this.people[4]));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 710), new Point(200, 810), this.configurationBehavior));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 850), new Point(200, 950), this.configurationBehavior));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 10), new Point(350, 110), this.configurationBehavior, this.people[0]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 150), new Point(350, 250), this.configurationBehavior, this.people[1]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 290), new Point(350, 390), this.configurationBehavior, this.people[2]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 430), new Point(350, 530), this.configurationBehavior, this.people[3]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 570), new Point(350, 670), this.configurationBehavior, this.people[4]));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 710), new Point(350, 810), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 850), new Point(350, 950), this.configurationBehavior));
 
         // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 10), new Point(350, 110), this.configurationBehavior));
         // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 150), new Point(350, 250), this.configurationBehavior));
@@ -120,8 +122,13 @@ export class TreeDraw {
         if (event.deltaY !== 0) {
 
             let zoomBehavior: number = 0.05;
-
             if (event.deltaY > 0) { zoomBehavior = zoomBehavior * -1; }
+
+            if(zoomBehavior < 0 && this.currentZoom <= environment.graphicConfigurationBehavior.zoomBehavior.minZoom) return;
+            if(zoomBehavior > 0 && this.currentZoom >= environment.graphicConfigurationBehavior.zoomBehavior.maxZoom) return;
+
+            this.currentZoom += zoomBehavior;
+            console.log(this.currentZoom);
 
             const currentTransform = this.context.getTransform();
 

@@ -6,30 +6,38 @@ export const environment = {
   production: false,
   graphicConfigurationBehavior: {
     defaultConfiguration: {
-      lineWidth: 3,
-      strokeStyle: '#37E',
+      lineWidth: 0.5,
+      strokeStyle: '#319EE1',
       fillStyle: '#FFA',
       showShadow: false,
-      shadowColor: 'rgba(0, 0, 0, 0.5)',
+      shadowColor: 'rgba(0, 0, 0, 0.1)',
       shadowWidth: 10
     },
     highlightConfiguration: {
-      lineWidth: 5,
-      strokeStyle: '#444',
+      lineWidth: 1.2,
+      strokeStyle: '#319EE1',
       fillStyle: '#0FA',
       showShadow: true,
-      shadowColor: 'rgba(0, 0, 0, 0.5)',
+      shadowColor: 'rgba(0, 0, 0, 0.1)',
       shadowWidth: 10
     },
     selectedConfiguration: {
-      lineWidth: 5,
-      strokeStyle: '#444',
+      lineWidth: 2,
+      strokeStyle: '#105a83',
       fillStyle: '#0DA6CA',
       showShadow: true,
       shadowColor: 'rgba(0, 0, 0, 0.5)',
       shadowWidth: 10
     },
-    highLightOnMouseOver: true
+    highLightOnMouseOver: true,
+    sexFillConfiguration: {
+      Male: 'rgba(159, 213, 235, 0.9)',
+      Female: 'rgba(245, 184, 219, 0.9)'
+    },
+    zoomBehavior: {
+      minZoom: 0.2,
+      maxZoom: 1.5
+    }
   }
 };
 
