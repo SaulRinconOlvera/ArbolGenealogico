@@ -2,7 +2,7 @@ export class DrawConfiguration {
     lineWidth: number;
     strokeStyle: string;
     fillStyle: string;
-    shadow: boolean;
+    showShadow: boolean;
     shadowColor: string;
     shadowWidth: number;
 
@@ -10,7 +10,7 @@ export class DrawConfiguration {
         this.lineWidth = lineWidth;
         this.strokeStyle = strokeStyle;
         this.fillStyle = fillStyle;
-        this.shadow = shadow;
+        this.showShadow = shadow;
         this.shadowColor = shadowColor;
         this.shadowWidth = shadowWidth;
     }

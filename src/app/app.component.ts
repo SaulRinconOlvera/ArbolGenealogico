@@ -10,9 +10,8 @@ export class AppComponent {
   title = 'Arbol';
 
   constructor() {
-    var canvas = document.getElementById('canvas');
-    
-    var treeDraw = new TreeDraw(canvas as HTMLCanvasElement);
+    const canvas = document.getElementById('canvas');
+    const tree = new TreeDraw(canvas as HTMLCanvasElement);
 
   }
 }

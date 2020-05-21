@@ -2,36 +2,17 @@ import { DrawConfiguration } from '../classes/draw-configuration';
 import { BoxRoundedCorner } from '../forms/box-rounded-corner';
 import { Point } from '../classes/point';
 import { ConfigurationBehavior } from '../classes/configuration-behavior';
+import { environment } from 'src/environments/environment';
+import { Person } from 'src/app/data/clases/person';
 
 export class TreeDraw {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private configurationBehavior: ConfigurationBehavior;
-
-    private radio:number = 10;
-
-    //------------------------------------------------------------
-    //  This next data must be set in a configuration class
-    //------------------------------------------------------------
-    //  Configuration
-    private lineWidth: number = 3;
-    private strokeStyle: string = '#37E';
-    private fillStryle: string = '#FFA';
-    private showShadow: boolean = false;
-    private shadowColor: string = 'rgba(0, 0, 0, 0.5)';
-    private shadowWidth: number = 10;
-    private currentScale: number = 1;
-
-    //  Higlight Configuration
-    private hLineWidth: number = 5;
-    private hStrokeStyle: string = '#444';
-    private hFillStryle: string = '#0FA';
-    private hShowShadow: boolean = true;
-    private hShadowColor: string = 'rgba(0, 0, 0, 0.5)';
-    private hShadowWidth: number = 10;
-    //------------------------------------------------------------
+    private originalTransform: DOMMatrix;
 
     private boxes: BoxRoundedCorner[] = [];
+    private people: Person[] = [];
 
     constructor(canvas: HTMLCanvasElement) {
         this.configureCanvas(canvas);
@@ -40,75 +21,145 @@ export class TreeDraw {
 
     private drawTest = () => {
         this.boxes = [];
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100,300), new Point(200,400), this.configurationBehavior));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100,150), new Point(200,250), this.configurationBehavior));
-        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100,10), new Point(200,110), this.configurationBehavior));
+
+        this.people.push(new Person('Saúl Rincón Olvera', './assets/dist/img/Saul.jpg'));
+        this.people.push(new Person('Janeth Santillan Rosales', './assets/dist/img/Janeth.jpg'));
+        this.people.push(new Person('Roosevelt Fernando Rincón Santillan', './assets/dist/img/Roosevelt.jpg'));
+        this.people.push(new Person('Samuel Rincón Santillan', './assets/dist/img/Samuel.jpg'));
+        this.people.push(new Person('Paulina Janeth Rincón Santillan', './assets/dist/img/Paulina.png'));
+
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 10), new Point(200, 110), this.configurationBehavior, this.people[0]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 150), new Point(200, 250), this.configurationBehavior, this.people[1]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 290), new Point(200, 390), this.configurationBehavior, this.people[2]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 430), new Point(200, 530), this.configurationBehavior, this.people[3]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 570), new Point(200, 670), this.configurationBehavior, this.people[4]));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 710), new Point(200, 810), this.configurationBehavior));
+        this.boxes.push(new BoxRoundedCorner(this.context, new Point(100, 850), new Point(200, 950), this.configurationBehavior));
+
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 10), new Point(350, 110), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 150), new Point(350, 250), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 290), new Point(350, 390), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 430), new Point(350, 530), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 570), new Point(350, 670), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 710), new Point(350, 810), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(250, 850), new Point(350, 950), this.configurationBehavior));
+
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 10), new Point(500, 110), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 150), new Point(500, 250), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 290), new Point(500, 390), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 430), new Point(500, 530), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 570), new Point(500, 670), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 710), new Point(500, 810), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(400, 850), new Point(500, 950), this.configurationBehavior));
+
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 10), new Point(650, 110), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 150), new Point(650, 250), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 290), new Point(650, 390), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 430), new Point(650, 530), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 570), new Point(650, 670), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 710), new Point(650, 810), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(550, 850), new Point(650, 950), this.configurationBehavior));
+
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 10), new Point(800, 110), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 150), new Point(800, 250), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 290), new Point(800, 390), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 430), new Point(800, 530), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 570), new Point(800, 670), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 710), new Point(800, 810), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(700, 850), new Point(800, 950), this.configurationBehavior));
+
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 10), new Point(950, 110), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 150), new Point(950, 250), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 290), new Point(950, 390), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 430), new Point(950, 530), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 570), new Point(950, 670), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 710), new Point(950, 810), this.configurationBehavior));
+        // this.boxes.push(new BoxRoundedCorner(this.context, new Point(850, 850), new Point(950, 950), this.configurationBehavior));
     }
 
     private configureCanvas = (canvas: HTMLCanvasElement) => {
         this.canvas = canvas;
-        this.context = canvas.getContext("2d");
+        this.context = canvas.getContext('2d');
+        this.originalTransform = this.context.getTransform();
+
         this.setConfiguration();
     }
 
     private setConfiguration = () => {
         this.configurationBehavior = new ConfigurationBehavior(
-            this.getDefaultConfiguration(), this.getHiglightConfiguration() , this.getSelectedConfiguration());
+            this.getDefaultConfiguration(), this.getHighlightConfiguration() , this.getSelectedConfiguration());
 
-        this.canvas.addEventListener("mousemove", this.canvarMouseMove.bind(this));
-        // this.canvas.addEventListener("click", this.canvasClick.bind(this));
+        this.canvas.addEventListener('mousemove', this.canvarMouseMove.bind(this));
+        this.canvas.addEventListener('click', this.canvasClick.bind(this));
         this.canvas.addEventListener('wheel', this.canvasWheel.bind(this));
+        this.canvas.addEventListener('mousedown', this.canvasMouseDown.bind(this));
+        this.canvas.addEventListener('mouseup', this.canvasMouseUp.bind(this));
     }
 
-    private getDefaultConfiguration = () : DrawConfiguration =>
-        new DrawConfiguration(this.lineWidth, this.strokeStyle, this.fillStryle, this.showShadow, this.shadowColor, this.shadowWidth);
+    private getDefaultConfiguration = (): DrawConfiguration =>
+        environment.graphicConfigurationBehavior.defaultConfiguration as DrawConfiguration
 
-    private getHiglightConfiguration = () : DrawConfiguration  =>
-        new DrawConfiguration(this.hLineWidth, this.hStrokeStyle, this.hFillStryle, this.hShowShadow, this.hShadowColor, this.hShadowWidth);
+    private getHighlightConfiguration = (): DrawConfiguration  =>
+    environment.graphicConfigurationBehavior.highlightConfiguration as DrawConfiguration
 
-    private getSelectedConfiguration = () : DrawConfiguration  =>
-        new DrawConfiguration(this.hLineWidth, this.hStrokeStyle, "#0DA6CA", this.hShowShadow, this.hShadowColor, this.hShadowWidth);
+    private getSelectedConfiguration = (): DrawConfiguration  =>
+        environment.graphicConfigurationBehavior.selectedConfiguration as DrawConfiguration
+
+    private canvasMouseDown = (event: MouseEvent) => {
+        if(this.getCurrentCursorStyle() !== 'default') return;
+        this.canvas.style.setProperty('cursor', 'all-scroll');
+    }
+
+    private canvasMouseUp = (event: MouseEvent) => {
+        this.canvas.style.setProperty('cursor', 'default');
+    }
+
+    private getCurrentCursorStyle = (): string => this.canvas.style.cursor;
 
     private canvasWheel = (event: WheelEvent) => {
-        if(event.deltaY != 0) {
+        if (event.deltaY !== 0) {
 
             let zoomBehavior: number = 0.05;
 
-            if(event.deltaY > 0) zoomBehavior = zoomBehavior * -1;
+            if (event.deltaY > 0) { zoomBehavior = zoomBehavior * -1; }
 
-            this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
+            const currentTransform = this.context.getTransform();
+
+            this.context.setTransform(this.originalTransform);
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.context.setTransform(currentTransform);
             this.context.scale(1 + zoomBehavior, 1 + zoomBehavior);
-            this.drawTest();
+            this.redraw();
         }
     }
 
-    // private redraw = () => {
-    //     this.boxes.forEach(box => {
-    //         box.redraw(this.currentScale);
-    //     })
-    // }
+    private redraw = () => this.boxes.forEach(box => { box.redraw(); });
 
-    // private canvasClick = (event: MouseEvent) => {
-    //     let currentPoint:Point = new Point(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop);
+    private canvasClick = (event: MouseEvent) => {
+        const currentPoint: Point = new Point(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop);
 
-    //     this.boxes.forEach(box => {
-    //         if(box.isPointInDraw(currentPoint, this.currentScale)) box.setSelected(!box.areSelected());
-    //         else box.setSelected(false);
-    //     })
-    // }
+        this.boxes.forEach(box => {
+            if(box.isPointInPath(currentPoint)) box.setSelected(!box.areSelected());
+            else box.setSelected(false);
+        });
+    }
 
     private canvarMouseMove = (event: MouseEvent)  =>  {
 
-        let currentPoint:Point = new Point(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop);
+        const currentPoint: Point = new Point(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop);
 
-        this.canvas.style.setProperty("cursor","default");
+        if(this.getCurrentCursorStyle() == 'pointer')
+            this.canvas.style.setProperty('cursor', 'default');
+
         this.boxes.forEach(box => {
-            if(box.isPointInPath(currentPoint))
+            if (box.isPointInPath(currentPoint))
             {
-                box.setMouseOver(true);
-                this.canvas.style.setProperty("cursor","pointer");
+                if(environment.graphicConfigurationBehavior.highLightOnMouseOver)  box.setMouseOver(true);
+                this.canvas.style.setProperty('cursor', 'pointer');
             }
-            else box.setMouseOver(false);
-        })
+            else {
+                if(environment.graphicConfigurationBehavior.highLightOnMouseOver) box.setMouseOver(false);
+            }
+        });
     }
 }

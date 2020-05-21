@@ -3,7 +3,34 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  graphicConfigurationBehavior: {
+    defaultConfiguration: {
+      lineWidth: 3,
+      strokeStyle: '#37E',
+      fillStyle: '#FFA',
+      showShadow: false,
+      shadowColor: 'rgba(0, 0, 0, 0.5)',
+      shadowWidth: 10
+    },
+    highlightConfiguration: {
+      lineWidth: 5,
+      strokeStyle: '#444',
+      fillStyle: '#0FA',
+      showShadow: true,
+      shadowColor: 'rgba(0, 0, 0, 0.5)',
+      shadowWidth: 10
+    },
+    selectedConfiguration: {
+      lineWidth: 5,
+      strokeStyle: '#444',
+      fillStyle: '#0DA6CA',
+      showShadow: true,
+      shadowColor: 'rgba(0, 0, 0, 0.5)',
+      shadowWidth: 10
+    },
+    highLightOnMouseOver: true
+  }
 };
 
 /*
